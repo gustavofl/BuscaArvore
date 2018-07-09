@@ -41,10 +41,12 @@ public class Main {
 			System.out.println("Digite add x y para adicionar um filho com nome y ao no x");
 			System.out.println("Digite prof x para retornar o custo de procurar x usando uma busca em profundidade");
 			System.out.println("Digite mostrar para mostrar graficamente a arvore criada");
+			System.out.println("Digite larg x para retornar o custo de procurar x usando uma busca em largura");
 			System.out.println("Digite fim para finalizar");
 			
 			entrada = scan.nextLine();
 			tokens = entrada.split(" "); 
+			int custo;
 			
 			switch (tokens[0]) {
 			case "add":
@@ -58,7 +60,7 @@ public class Main {
 				tela.repaint();
 				break;
 			case "prof":
-				int custo = arvore.buscaProfundidadeDist(tokens[1]);
+				custo = arvore.buscaProfundidadeDist(tokens[1]);
 				if(custo == -1)
 					System.out.println("No nao encontrado");
 				else
@@ -66,6 +68,13 @@ public class Main {
 				break;
 			case "mostrar": case "m":
 				tela.repaint();
+				break;
+			case "larg":
+				custo = arvore.buscaLarguraDist(tokens[1]);
+				if(custo == -1)
+					System.out.println("No nao encontrado");
+				else
+					System.out.println(custo);
 				break;
 			case "fim": case "f":
 				tela.dispose();
