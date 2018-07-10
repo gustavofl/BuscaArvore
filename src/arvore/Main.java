@@ -60,7 +60,7 @@ public class Main {
 				tela.repaint();
 				break;
 			case "prof":
-				custo = arvore.buscaProfundidadeDist(tokens[1]);
+				custo = arvore.buscaProfundidadeCusto(tokens[1]);
 				if(custo == -1)
 					System.out.println("No nao encontrado");
 				else

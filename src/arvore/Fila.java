@@ -1,32 +1,32 @@
 package arvore;
 
-import java.util.ArrayList;
-
-public class Fila {
-	
-	private ArrayList<Node> pilha;
+public class Fila extends ListaSequencial {
 
 	public Fila() {
-		this.pilha = new ArrayList<>();
+		super();
 	}
 	
 	public Fila(Node n) {
-		this();
-		this.add(n);
+		super(n);
 	}
 	
 	public void add(Node n) {
-		this.pilha.add(n);
+		this.lista.add(n);
 	}
 	
-	public Node getLast() {
-		return this.pilha.get(0);
+	public Node getNext() {
+		return this.lista.get(0);
 	}
 	
 	public Node pop() {
-		Node last = this.getLast();
-		this.pilha.remove(0);
+		Node last = this.getNext();
+		this.lista.remove(0);
 		return last;
+	}
+	
+	@Override
+	public String toString() {
+		return "FILA -> " + super.toString();
 	}
 
 }

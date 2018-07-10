@@ -1,35 +1,34 @@
 package arvore;
 
-import java.util.ArrayList;
-
-public class Pilha {
+public class Pilha extends ListaSequencial {
 	
-	private ArrayList<Node> pilha;
-	int tamanho;
+	private int tamanho;
 
 	public Pilha() {
-		this.pilha = new ArrayList<>();
-		this.tamanho = 0;
+		super();
 	}
 	
 	public Pilha(Node n) {
-		this();
-		this.add(n);
+		super(n);
 	}
 	
 	public void add(Node n) {
-		this.pilha.add(n);
-		this.tamanho++;
+		this.lista.add(n);
+		tamanho++;
 	}
 	
-	public Node getLast() {
-		return this.pilha.get(--this.tamanho);
+	public Node getNext() {
+		return this.lista.get(tamanho-1);
 	}
 	
 	public Node pop() {
-		Node last = this.getLast();
-		this.pilha.remove(this.tamanho);
+		Node last = this.getNext();
+		this.lista.remove(--tamanho);
 		return last;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "PILHA -> " + super.toString();
+	}
 }
