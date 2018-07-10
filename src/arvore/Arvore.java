@@ -9,8 +9,9 @@ public class Arvore {
 	public Arvore(String nome) {
 		this.raiz = new Node(nome);
 	}
-
-	public void show() {
+	
+	public Arvore() {
+		this.raiz = null;
 	}
 
 	public Node getNode(String nome) {
@@ -35,6 +36,9 @@ public class Arvore {
 
 	public Pilha buscaLargura(String nome) {
 		Pilha resultado = new Pilha();
+		
+		if(raiz == null) return resultado;
+		
 		Fila fila = new Fila(raiz);
 		buscaLarguraRecursiva(nome, resultado, fila);
 		return resultado;
@@ -69,6 +73,9 @@ public class Arvore {
 
 	public Pilha buscaProfundidade(String nome) {
 		Pilha resultado = new Pilha();
+		
+		if(raiz == null) return resultado;
+		
 		buscaProfundidadeRecursiva(raiz, nome, resultado);
 		return resultado;
 	}
