@@ -7,6 +7,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import model.Node;
 
@@ -105,7 +107,7 @@ public class TelaSelecionarNodeAlteracao extends javax.swing.JDialog {
         Node node = controller.getNode((String) nomeNode.getSelectedItem());
         
         if(node == null){
-        	System.out.println("No invalido ou inexistente.");
+        	JOptionPane.showMessageDialog(this, "No nao encontrado.", "No nao encontrado", JOptionPane.ERROR_MESSAGE);
         } else {
         	(new TelaAlterarNode((java.awt.Frame) this.getParent(), true, (String) nomeNode.getSelectedItem())).setVisible(true);
         }

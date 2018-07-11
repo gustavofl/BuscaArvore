@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import controller.Controller;
 import model.Node;
+import model.exceptions.NodeNotFoundException;
 
 /**
  *
@@ -108,12 +109,19 @@ public class TelaSelecionarNodeBusca extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
-        int custoBusca = -1;
+        int custoBusca;
         String nomeNo = (String) nomeNode.getSelectedItem();
-    	if(tipoBusca == LARGURA)
-        	custoBusca = controller.buscaLargura(nomeNo);
-    	else
-    		custoBusca = controller.buscaProfundidade(nomeNo);
+		try {
+	    	if(tipoBusca == LARGURA)
+					custoBusca = controller.buscaLargura(nomeNo);
+			else
+	    		custoBusca = controller.buscaProfundidade(nomeNo);
+		} catch (NodeNotFoundException e) {
+			// e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Nó não encontrado.", "Nó não encontrado", JOptionPane.ERROR_MESSAGE);
+			this.dispose();
+			return;
+		}
     	JOptionPane.showMessageDialog(this, "Custo para procurar o no "+nomeNo+", usando busca em "+getNomeBusca()+": "+custoBusca,
     									"Busca em "+getNomeBusca(), JOptionPane.PLAIN_MESSAGE);
     	this.dispose();

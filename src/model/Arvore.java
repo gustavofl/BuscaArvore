@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import model.exceptions.NodeNotFoundException;
+
 public class Arvore {
 
 	private Node raiz;
@@ -24,14 +26,14 @@ public class Arvore {
 	}
 
 	// BUSCA LARGURA
-	public int buscaLarguraCusto(String nome) {
+	public int buscaLarguraCusto(String nome) throws NodeNotFoundException {
 		Pilha busca = buscaLargura(nome);
 		if (busca.empty())
-			return -1;
+			throw new NodeNotFoundException();
 		if (busca.getNext().equals(new Node(nome))) {
 			return busca.getTamanho();
 		}
-		return -1;
+		throw new NodeNotFoundException();
 	}
 
 	public Pilha buscaLargura(String nome) {
@@ -62,13 +64,13 @@ public class Arvore {
 	}
 
 	// BUSCA PROFUNDIDADE
-	public int buscaProfundidadeCusto(String nome) {
+	public int buscaProfundidadeCusto(String nome) throws NodeNotFoundException {
 		Pilha busca = buscaProfundidade(nome);
 		if (busca.empty())
-			return -1;
+			throw new NodeNotFoundException();
 		if (busca.getNext().equals(new Node(nome)))
 			return busca.getTamanho();
-		return -1;
+		throw new NodeNotFoundException();
 	}
 
 	public Pilha buscaProfundidade(String nomeNodeBusca, String nomeNodeRestricao) {

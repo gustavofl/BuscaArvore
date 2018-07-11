@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import model.Arvore;
 import model.Node;
-import model.Pilha;
+import model.exceptions.NodeJaExisteException;
+import model.exceptions.NodeNotFoundException;
+import model.exceptions.NomeInvalidoException;
 
 public class Controller {
 	
@@ -21,30 +23,29 @@ public class Controller {
 		return instance;
 	}
 	
-	public void addNode(String nomePai, String nome) {
+	public void addNode(String nomePai, String nome) throws NomeInvalidoException, NodeJaExisteException, NodeNotFoundException {
 		
 		if(nome.equals("")) {
-			System.out.println("Nome invalido.");
-			return;
+			throw new NomeInvalidoException();
 		}
 		
 		// para add a raiz da arvore
 		if(arvore.getRaiz() == null) {
 			arvore.setRaiz(new Node(nome));
 			if(nomePai != null)
-				System.out.println("Raiz da arvore adicionada, nome do no pai ignorado.");
+				System.err.println("Raiz da arvore adicionada, nome do no pai ignorado.");
 		}
 		
 		// para add um no filho
 		else {
 			if(nomePai == null)
-				System.out.println("Nome do no pai invalido");
+				throw new NomeInvalidoException("pai");
 			Node pai = arvore.getNode(nomePai);
 			if(pai == null)
-				System.out.println("Nao existe um no com nome "+nomePai+" na arvore.");
+				throw new NodeNotFoundException(nomePai);
 			else {
 				if(arvore.getNode(nome) != null)
-					System.out.println("Já existe um no com o nome "+nome);
+					throw new NodeJaExisteException(nome);
 				else
 					pai.addFilho(nome);
 			}
@@ -65,54 +66,39 @@ public class Controller {
 		node.getPai().removerFilho(node);
 	}
 	
-	public void alterarNode(String nomeAtual, String novoNome, String novoPai) {
-		if(arvore.getNode(novoNome) != null && !nomeAtual.equals(novoNome)){
-			System.out.println("Ja existe um no com o nome "+novoNome);
-			return;
-		}
+	public void alterarNode(String nomeAtual, String novoNome, String novoPai) throws NomeInvalidoException, NodeJaExisteException {
+		if(arvore.getNode(novoNome) != null && !nomeAtual.equals(novoNome))
+			throw new NodeJaExisteException(novoNome);
 		
 		Node nodePai = arvore.buscaProfundidade(novoPai, nomeAtual).getNext();
 		Node node = arvore.getNode(nomeAtual);
 		node.setNome(novoNome);
 		
 		// verificar se o novo pai eh descendente do node (listar os nodes colocando o node atual como restricao e o novoPai como busca, se achar ta tudo bem!)
-		if(nodePai != null && nodePai.equals(new Node(novoPai))) {
+		if(nodePai == null)
+			return;
+		
+		if(nodePai.equals(new Node(novoPai))) {
 			node.getPai().removerFilho(node);
 			node.setPai(nodePai);
 			node.getPai().addFilhoExistente(node);
 		} else {
-			System.out.println("No pai invalido ou inexistente.");
+			throw new NomeInvalidoException("pai");
 		}
 	}
 	 
-	public int buscaProfundidade(String nome) {
+	public int buscaProfundidade(String nome) throws NodeNotFoundException {
 		int custo = arvore.buscaProfundidadeCusto(nome);
-		if(custo == -1)
-			System.out.println("No nao encontrado");
 		return custo;
 	}
 	
-	public int buscaLargura(String nome) {
+	public int buscaLargura(String nome) throws NodeNotFoundException {
 		int custo = arvore.buscaLarguraCusto(nome);
-		if(custo == -1)
-			System.out.println("No nao encontrado");
 		return custo;
 	}
 	
 	public Node getNode(String nome) {
 		return arvore.getNode(nome);
-	}
-	
-	public void updateNode(String nome, String novoNome, String novoPai) {
-		Node node = arvore.getNode(nome);
-		if(node == null) System.out.println("No nao encontrado");
-		
-		if(nome.equals(novoNome) && node.getPai().getNome().equals(novoPai))
-			return;
-		
-		node.setNome(novoNome);
-		// falta atualizar o pai
-		// ver uma forma de nao causar CICLO, ie, o node ser filho de seu descendente
 	}
 	
 	public ArrayList<Node> getListaNodes() {

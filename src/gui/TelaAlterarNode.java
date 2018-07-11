@@ -7,8 +7,12 @@ package gui;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import model.Node;
+import model.exceptions.NodeJaExisteException;
+import model.exceptions.NomeInvalidoException;
 
 /**
  *
@@ -154,7 +158,15 @@ public class TelaAlterarNode extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
-        controller.alterarNode(nomeNode, nomeNodeField.getText(), (String) comboPaiNode.getSelectedItem());
+        try {
+			controller.alterarNode(nomeNode, nomeNodeField.getText(), (String) comboPaiNode.getSelectedItem());
+		} catch (NomeInvalidoException e) {
+			// e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Nome Invalido", JOptionPane.ERROR_MESSAGE);
+		} catch (NodeJaExisteException e) {
+			// e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(), "No ja existe", JOptionPane.ERROR_MESSAGE);
+		}
         this.getParent().repaint();
         this.dispose();
     }//GEN-LAST:event_okButtonMouseClicked
