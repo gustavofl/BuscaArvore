@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
-import model.Arvore;
+import model.arvore.Arvore;
 
 @SuppressWarnings("serial")
 public class ComponentArvore2D extends JComponent {

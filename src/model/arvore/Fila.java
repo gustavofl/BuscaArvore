@@ -1,4 +1,4 @@
-package model;
+package model.arvore;
 
 public class Fila extends ListaSequencial {
 

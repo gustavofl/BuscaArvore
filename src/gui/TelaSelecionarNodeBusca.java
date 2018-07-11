@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import controller.Controller;
-import model.Node;
+import model.arvore.Node;
 import model.exceptions.NodeNotFoundException;
 
 /**

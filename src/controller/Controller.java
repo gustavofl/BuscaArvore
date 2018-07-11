@@ -2,8 +2,8 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.Arvore;
-import model.Node;
+import model.arvore.Arvore;
+import model.arvore.Node;
 import model.exceptions.NodeJaExisteException;
 import model.exceptions.NodeNotFoundException;
 import model.exceptions.NomeInvalidoException;

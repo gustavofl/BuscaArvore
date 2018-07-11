@@ -3,7 +3,7 @@ package gui.java2d;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import model.Node;
+import model.arvore.Node;
 
 public class Div implements Desenhavel {
 	private Coordenada coord;

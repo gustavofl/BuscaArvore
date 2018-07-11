@@ -8,7 +8,7 @@ package gui;
 import java.util.ArrayList;
 
 import controller.Controller;
-import model.Node;
+import model.arvore.Node;
 
 /**
  *
