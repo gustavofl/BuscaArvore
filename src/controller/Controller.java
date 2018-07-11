@@ -2,15 +2,14 @@ package controller;
 
 import java.util.ArrayList;
 
-import arvore.Arvore;
-import arvore.Node;
-import arvore.java2d.DesenharArvore;
+import model.Arvore;
+import model.Node;
+import model.Pilha;
 
 public class Controller {
 	
 	private Arvore arvore;
 	private static Controller instance = null;
-	private DesenharArvore tela;
 	
 	private Controller() {
 		arvore = new Arvore();
@@ -24,13 +23,16 @@ public class Controller {
 	
 	public void addNode(String nomePai, String nome) {
 		
+		if(nome.equals("")) {
+			System.out.println("Nome invalido.");
+			return;
+		}
+		
 		// para add a raiz da arvore
 		if(arvore.getRaiz() == null) {
 			arvore.setRaiz(new Node(nome));
-			if(nomePai != null) {
+			if(nomePai != null)
 				System.out.println("Raiz da arvore adicionada, nome do no pai ignorado.");
-				tela = new DesenharArvore(arvore);
-			}
 		}
 		
 		// para add um no filho
@@ -48,9 +50,41 @@ public class Controller {
 			}
 		}
 		
-		tela.repaint();
 	}
 	
+	public void removerNode(String nome) {
+		Node node = arvore.getNode(nome);
+		
+		if(node == null) return;
+		
+		if(node.equals(arvore.getRaiz())) {
+			arvore.setRaiz(null);
+			return;
+		}
+		
+		node.getPai().removerFilho(node);
+	}
+	
+	public void alterarNode(String nomeAtual, String novoNome, String novoPai) {
+		if(arvore.getNode(novoNome) != null && !nomeAtual.equals(novoNome)){
+			System.out.println("Ja existe um no com o nome "+novoNome);
+			return;
+		}
+		
+		Node nodePai = arvore.buscaProfundidade(novoPai, nomeAtual).getNext();
+		Node node = arvore.getNode(nomeAtual);
+		node.setNome(novoNome);
+		
+		// verificar se o novo pai eh descendente do node (listar os nodes colocando o node atual como restricao e o novoPai como busca, se achar ta tudo bem!)
+		if(nodePai != null && nodePai.equals(new Node(novoPai))) {
+			node.getPai().removerFilho(node);
+			node.setPai(nodePai);
+			node.getPai().addFilhoExistente(node);
+		} else {
+			System.out.println("No pai invalido ou inexistente.");
+		}
+	}
+	 
 	public int buscaProfundidade(String nome) {
 		int custo = arvore.buscaProfundidadeCusto(nome);
 		if(custo == -1)
@@ -85,8 +119,21 @@ public class Controller {
 		return arvore.buscaLargura(null).toArrayList();
 	}
 	
-	public void closeTela() {
-		tela.dispose();
+	public String[] toArrayString() {
+		ArrayList<Node> listaNodes = getListaNodes();
+		String[] arrayNomes = new String[listaNodes.size()];
+		for (int i = 0; i < arrayNomes.length; i++) {
+			arrayNomes[i] = listaNodes.get(i).getNome();
+		}
+		return arrayNomes;
+	}
+	
+	public Arvore getArvore() {
+		return arvore;
+	}
+
+	public ArrayList<Node> getListaNodesComRestricao(String nomeNode) {
+		return arvore.buscaProfundidadeComRestricao(nomeNode);
 	}
 
 }

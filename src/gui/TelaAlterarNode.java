@@ -5,17 +5,27 @@
  */
 package gui;
 
+import java.util.ArrayList;
+
+import controller.Controller;
+import model.Node;
+
 /**
  *
  * @author gustavo
  */
 public class TelaAlterarNode extends javax.swing.JDialog {
+	
+	private Controller controller;
+	private String nomeNode;
 
     /**
      * Creates new form AddNode
      */
-    public TelaAlterarNode(java.awt.Frame parent, boolean modal) {
+    public TelaAlterarNode(java.awt.Frame parent, boolean modal, String nomeNode) {
         super(parent, modal);
+        this.controller = Controller.getInstance();
+        this.nomeNode = nomeNode;
         initComponents();
     }
 
@@ -30,7 +40,7 @@ public class TelaAlterarNode extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nomeNode = new javax.swing.JTextField();
+        nomeNodeField = new javax.swing.JTextField();
         comboPaiNode = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -41,22 +51,35 @@ public class TelaAlterarNode extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alterar Nó");
+        
+        Node node = controller.getNode(nomeNode);
 
         jLabel1.setText("Novo nome:");
+        
+        nomeNodeField.setText(node.getNome());
 
         jLabel2.setText("Novo pai:");
 
-        nomeNode.setText("Nome");
-
-        comboPaiNode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboPaiNode.setModel(new javax.swing.DefaultComboBoxModel<>());
+        ArrayList<Node> listaNodes = controller.getListaNodesComRestricao(nomeNode);
+        for (Node n : listaNodes) {
+        	comboPaiNode.addItem(n.getNome());
+		}
+        if(node.getPai() != null)
+        	comboPaiNode.setSelectedItem(node.getPai().getNome());
+        else
+        	comboPaiNode.invalidate();
 
         jLabel3.setText("Pai atual:");
 
+        if(node.getPai() != null)
+        	paiAtual.setText(node.getPai().getNome());
+        else
+        	paiAtual.setText("---");
+
         jLabel4.setText("Nome atual:");
-
-        paiAtual.setText("paiAtual");
-
-        nomeAtual.setText("nomeAtual");
+        
+        nomeAtual.setText(node.getNome());
 
         cancelButton.setText("Cancelar");
         cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,11 +92,6 @@ public class TelaAlterarNode extends javax.swing.JDialog {
         okButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 okButtonMouseClicked(evt);
-            }
-        });
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
             }
         });
 
@@ -93,7 +111,7 @@ public class TelaAlterarNode extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(comboPaiNode, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nomeNode, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeNodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paiAtual)
                     .addComponent(nomeAtual))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -118,7 +136,7 @@ public class TelaAlterarNode extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(nomeNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomeNodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -130,71 +148,20 @@ public class TelaAlterarNode extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        nomeNode.getAccessibleContext().setAccessibleName("nomeNode");
+        nomeNodeField.getAccessibleContext().setAccessibleName("nomeNode");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_okButtonActionPerformed
-
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
-        // TODO add your handling code here:
+        controller.alterarNode(nomeNode, nomeNodeField.getText(), (String) comboPaiNode.getSelectedItem());
+        this.getParent().repaint();
+        this.dispose();
     }//GEN-LAST:event_okButtonMouseClicked
 
     private void cancelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelButtonMouseClicked
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_cancelButtonMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaAlterarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaAlterarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaAlterarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaAlterarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TelaAlterarNode dialog = new TelaAlterarNode(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
@@ -204,7 +171,7 @@ public class TelaAlterarNode extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel nomeAtual;
-    private javax.swing.JTextField nomeNode;
+    private javax.swing.JTextField nomeNodeField;
     private javax.swing.JButton okButton;
     private javax.swing.JLabel paiAtual;
     // End of variables declaration//GEN-END:variables

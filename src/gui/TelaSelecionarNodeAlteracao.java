@@ -5,17 +5,25 @@
  */
 package gui;
 
+import java.util.ArrayList;
+
+import controller.Controller;
+import model.Node;
+
 /**
  *
  * @author gustavo
  */
-public class TelaSelecionarNode extends javax.swing.JDialog {
-
-    /**
+public class TelaSelecionarNodeAlteracao extends javax.swing.JDialog {
+	
+	private Controller controller;
+	
+	/**
      * Creates new form AddNode
      */
-    public TelaSelecionarNode(java.awt.Frame parent, boolean modal) {
+    public TelaSelecionarNodeAlteracao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        controller = Controller.getInstance();
         initComponents();
     }
 
@@ -34,11 +42,15 @@ public class TelaSelecionarNode extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Selecionar nó");
+        setTitle("Alterar nó");
 
         jLabel2.setText("Nó:");
 
-        nomeNode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        nomeNode.setModel(new javax.swing.DefaultComboBoxModel<>());
+        ArrayList<Node> listaNodes = controller.getListaNodes();
+        for (Node node : listaNodes) {
+			nomeNode.addItem(node.getNome());
+		}
 
         cancelButton.setText("Cancelar");
         cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -51,11 +63,6 @@ public class TelaSelecionarNode extends javax.swing.JDialog {
         okButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 okButtonMouseClicked(evt);
-            }
-        });
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
             }
         });
 
@@ -93,90 +100,21 @@ public class TelaSelecionarNode extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_okButtonActionPerformed
-
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
-        // TODO add your handling code here:
+        
+        Node node = controller.getNode((String) nomeNode.getSelectedItem());
+        
+        if(node == null){
+        	System.out.println("No invalido ou inexistente.");
+        } else {
+        	(new TelaAlterarNode((java.awt.Frame) this.getParent(), true, (String) nomeNode.getSelectedItem())).setVisible(true);
+        }
+    	this.dispose();
     }//GEN-LAST:event_okButtonMouseClicked
 
     private void cancelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelButtonMouseClicked
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_cancelButtonMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaSelecionarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaSelecionarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaSelecionarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaSelecionarNode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TelaSelecionarNode dialog = new TelaSelecionarNode(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

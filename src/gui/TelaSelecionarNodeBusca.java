@@ -7,6 +7,8 @@ package gui;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import controller.Controller;
 import model.Node;
 
@@ -14,16 +16,21 @@ import model.Node;
  *
  * @author gustavo
  */
-public class TelaAddNode extends javax.swing.JDialog {
+public class TelaSelecionarNodeBusca extends javax.swing.JDialog {
+
+    public static final int PROFUNDIDADE = 0;
+	public static final int LARGURA = 1;
 	
-	private Controller controller; 
+	private Controller controller;
+    private int tipoBusca;
 
     /**
      * Creates new form AddNode
      */
-    public TelaAddNode(java.awt.Frame parent, boolean modal) {
+    public TelaSelecionarNodeBusca(java.awt.Frame parent, boolean modal, int tipoBusca) {
         super(parent, modal);
-        this.controller = Controller.getInstance();
+        this.tipoBusca = tipoBusca;
+        this.controller = controller.getInstance();
         initComponents();
     }
 
@@ -36,37 +43,33 @@ public class TelaAddNode extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nomeNode = new javax.swing.JTextField();
-        comboPaiNode = new javax.swing.JComboBox<>();
-        okButton = new javax.swing.JButton();
+        nomeNode = new javax.swing.JComboBox<>();
         cancelButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Adicionar Nó");
+        setTitle("Buscar nó - " + getNomeBusca());
 
-        jLabel1.setText("Nome:");
+        jLabel2.setText("Nó:");
 
-        jLabel2.setText("Nó pai:");
-
-        comboPaiNode.setModel(new javax.swing.DefaultComboBoxModel<>());
+        nomeNode.setModel(new javax.swing.DefaultComboBoxModel<>());
         ArrayList<Node> listaNodes = controller.getListaNodes();
         for (Node node : listaNodes) {
-			comboPaiNode.addItem(node.getNome());
+			nomeNode.addItem(node.getNome());
 		}
-        
-        okButton.setText("OK");
-        okButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                okButtonMouseClicked(evt);
-            }
-        });
 
         cancelButton.setText("Cancelar");
         cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cancelButtonMouseClicked(evt);
+            }
+        });
+
+        okButton.setText("OK");
+        okButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                okButtonMouseClicked(evt);
             }
         });
 
@@ -76,62 +79,63 @@ public class TelaAddNode extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(cancelButton)
                         .addGap(18, 18, 18)
-                        .addComponent(nomeNode, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(okButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(comboPaiNode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cancelButton)
-                .addGap(18, 18, 18)
-                .addComponent(okButton)
-                .addContainerGap())
+                        .addComponent(nomeNode, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(nomeNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(comboPaiNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                    .addComponent(nomeNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(cancelButton))
                 .addContainerGap())
         );
 
-        nomeNode.getAccessibleContext().setAccessibleName("nomeNode");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
-        controller.addNode((String) comboPaiNode.getSelectedItem(), nomeNode.getText());
-        this.dispose();
-        this.getParent().repaint();
+        int custoBusca = -1;
+        String nomeNo = (String) nomeNode.getSelectedItem();
+    	if(tipoBusca == LARGURA)
+        	custoBusca = controller.buscaLargura(nomeNo);
+    	else
+    		custoBusca = controller.buscaProfundidade(nomeNo);
+    	JOptionPane.showMessageDialog(this, "Custo para procurar o no "+nomeNo+", usando busca em "+getNomeBusca()+": "+custoBusca,
+    									"Busca em "+getNomeBusca(), JOptionPane.PLAIN_MESSAGE);
+    	this.dispose();
     }//GEN-LAST:event_okButtonMouseClicked
 
-    private void cancelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelButtonMouseClicked
+    private String getNomeBusca() {
+    	String nomeBusca;
+        if(tipoBusca == PROFUNDIDADE)
+        	nomeBusca = "Profundidade";
+        else
+        	nomeBusca = "Largura";
+		return nomeBusca;
+	}
+
+	private void cancelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelButtonMouseClicked
         this.dispose();
     }//GEN-LAST:event_cancelButtonMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JComboBox<String> comboPaiNode;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField nomeNode;
+    private javax.swing.JComboBox<String> nomeNode;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,4 +1,4 @@
-package arvore.java2d;
+package gui.java2d;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

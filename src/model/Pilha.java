@@ -1,4 +1,4 @@
-package arvore;
+package model;
 
 public class Pilha extends ListaSequencial {
 	
@@ -18,6 +18,8 @@ public class Pilha extends ListaSequencial {
 	}
 	
 	public Node getNext() {
+		if(tamanho == 0)
+			return null;
 		return this.lista.get(tamanho-1);
 	}
 	

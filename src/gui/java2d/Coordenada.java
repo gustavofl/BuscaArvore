@@ -1,4 +1,4 @@
-package arvore.java2d;
+package gui.java2d;
 
 public class Coordenada {
 	private int x;

@@ -1,9 +1,9 @@
-package arvore.java2d;
+package gui.java2d;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import arvore.Node;
+import model.Node;
 
 public class Div implements Desenhavel {
 	private Coordenada coord;

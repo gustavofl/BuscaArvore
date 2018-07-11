@@ -1,4 +1,4 @@
-package arvore;
+package model;
 
 import java.util.ArrayList;
 
@@ -50,6 +50,14 @@ public class Node {
 			return false;
 		Node node = (Node) obj;
 		return node.getNome().equals(this.nome);
+	}
+
+	public void removerFilho(Node node) {
+		filhos.remove(node);
+	}
+
+	public void addFilhoExistente(Node node) {
+		filhos.add(node);
 	}
 
 }

@@ -1,4 +1,4 @@
-package arvore;
+package model;
 
 public class Fila extends ListaSequencial {
 
@@ -15,6 +15,8 @@ public class Fila extends ListaSequencial {
 	}
 	
 	public Node getNext() {
+		if(getTamanho() == 0)
+			return null;
 		return this.lista.get(0);
 	}
 	

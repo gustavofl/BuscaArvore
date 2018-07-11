@@ -5,16 +5,26 @@
  */
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import controller.Controller;
+import gui.java2d.ComponentArvore2D;
+
 /**
  *
  * @author gustavo
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+	
+	private Controller controller;
+	private ComponentArvore2D arvore2D;
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
+    	controller = Controller.getInstance();
         initComponents();
     }
 
@@ -40,38 +50,48 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(220, 220, 220));
-        setPreferredSize(new java.awt.Dimension(750, 750));
+        setPreferredSize(new java.awt.Dimension(750, 500));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.setPreferredSize(new Dimension(750, 400));
+        arvore2D = new ComponentArvore2D(controller.getArvore());
+        jPanel1.add(arvore2D, BorderLayout.NORTH);
+        jPanel1.setVisible(true);
 
         jPanel2.setPreferredSize(new java.awt.Dimension(0, 100));
 
         removeNodeButton.setText("Remover Nó");
+        removeNodeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeNodeButtonMouseClicked(evt);
+            }
+        });
 
         alterarNodeButton.setText("Alterar Nó");
+        alterarNodeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	alterarNodeButtonMouseClicked(evt);
+            }
+        });
 
         buscaProfButton.setText("Busca em profundidade");
+        buscaProfButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	buscaProfButtonMouseClicked(evt);
+            }
+        });
 
         buscaLargButton.setText("Busca em largura");
+        buscaLargButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	buscaLargButtonMouseClicked(evt);
+            }
+        });
 
         addNodeButton.setText("Adicionar Nó");
         addNodeButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addNodeButtonMouseClicked(evt);
-            }
-        });
-        addNodeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNodeButtonActionPerformed(evt);
+            	addNodeButtonMouseClicked(evt);
             }
         });
 
@@ -124,13 +144,31 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addNodeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNodeButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNodeButtonActionPerformed
-
     private void addNodeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNodeButtonMouseClicked
-        // TODO add your handling code here:
+        (new TelaAddNode(this, true)).setVisible(true);
     }//GEN-LAST:event_addNodeButtonMouseClicked
+
+    private void removeNodeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNodeButtonMouseClicked
+    	(new TelaRemoverNode(this, true)).setVisible(true);
+    }//GEN-LAST:event_addNodeButtonMouseClicked
+
+    private void alterarNodeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNodeButtonMouseClicked
+    	(new TelaSelecionarNodeAlteracao(this, true)).setVisible(true);
+    }//GEN-LAST:event_addNodeButtonMouseClicked
+
+    private void buscaProfButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNodeButtonMouseClicked
+    	(new TelaSelecionarNodeBusca(this, true, TelaSelecionarNodeBusca.PROFUNDIDADE)).setVisible(true);
+    }//GEN-LAST:event_addNodeButtonMouseClicked
+
+    private void buscaLargButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNodeButtonMouseClicked
+    	(new TelaSelecionarNodeBusca(this, true, TelaSelecionarNodeBusca.LARGURA)).setVisible(true);
+    }//GEN-LAST:event_addNodeButtonMouseClicked
+    
+    @Override
+    public void repaint() {
+    	super.repaint();
+    	arvore2D.repaint();
+    }
 
     /**
      * @param args the command line arguments
