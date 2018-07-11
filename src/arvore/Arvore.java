@@ -24,7 +24,7 @@ public class Arvore {
 	}
 
 	// BUSCA LARGURA
-	public int buscaLarguraDist(String nome) {
+	public int buscaLarguraCusto(String nome) {
 		Pilha busca = buscaLargura(nome);
 		if (busca.empty())
 			return -1;

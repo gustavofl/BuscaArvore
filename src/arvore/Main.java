@@ -3,11 +3,12 @@ package arvore;
 import java.util.Scanner;
 
 import arvore.java2d.DesenharArvore;
+import controller.Controller;
 
 public class Main {
 
 	public static void main(String[] args) {
-		menu();
+		menuController();
 		
 		/*Arvore arvore = new Arvore("A");
 		Node B = arvore.getRaiz().addFilho("B");
@@ -23,6 +24,49 @@ public class Main {
 		J.addFilho("R");
 		
 		System.out.println(arvore.buscaProfundidade("D"));*/
+	}
+	
+	public static void menuController() {
+		Scanner scan = new Scanner(System.in);
+		Controller controller = Controller.getInstance();
+		
+		boolean continuar = true;
+		String entrada;
+		String tokens[];
+		while(continuar){
+			System.out.println("\n--- MENU ---");
+			System.out.println("Digite add x y para adicionar um filho com nome y ao no x");
+			System.out.println("Digite prof x para retornar o custo de procurar x usando uma busca em profundidade");
+			System.out.println("Digite mostrar para mostrar graficamente a arvore criada");
+			System.out.println("Digite larg x para retornar o custo de procurar x usando uma busca em largura");
+			System.out.println("Digite fim para finalizar");
+			
+			entrada = scan.nextLine();
+			tokens = entrada.split(" "); 
+			
+			switch (tokens[0]) {
+			case "add":
+				controller.addNode(tokens[1], tokens[2]);
+				break;
+			case "prof":
+				System.out.println(controller.buscaProfundidade(tokens[1]));
+				break;
+			case "larg":
+				System.out.println(controller.buscaLargura(tokens[1]));
+				break;
+			case "fim": case "f":
+				controller.closeTela();
+				continuar = false;
+				break;
+			default:
+				System.out.println("Comando nao reconhecido");
+				break;
+			}
+		}
+		
+		System.out.println("\nFIM");
+		
+		scan.close();
 	}
 	
 	public static void menu(){
@@ -70,7 +114,7 @@ public class Main {
 				tela.repaint();
 				break;
 			case "larg":
-				custo = arvore.buscaLarguraDist(tokens[1]);
+				custo = arvore.buscaLarguraCusto(tokens[1]);
 				if(custo == -1)
 					System.out.println("No nao encontrado");
 				else
