@@ -2,127 +2,62 @@ package model.grafo;
 
 import java.util.ArrayList;
 
-import model.arvore.Fila;
-import model.arvore.Node;
-import model.arvore.Pilha;
-import model.exceptions.NodeNotFoundException;
+import model.exceptions.NodeJaExisteException;
 
 public class Grafo {
 
-	private Node raiz;
+	private ArrayList<String> vertices;
+	private ArrayList<Aresta> listaAdj;
 
-	public Grafo(String nome) {
-		this.raiz = new Node(nome);
+	public Grafo(ArrayList<String> vertices, ArrayList<Aresta> listaAdj) {
+		this.vertices = vertices;
+		this.listaAdj = listaAdj;
 	}
-	
+
 	public Grafo() {
-		this.raiz = null;
-	}
-
-	public Node getNode(String nome) {
-		Pilha busca = buscaProfundidade(nome);
-		if (busca.empty())
-			return null;
-		if (busca.getNext().getNome().equals(nome))
-			return busca.getNext();
-		return null;
-	}
-
-	// BUSCA LARGURA
-	public int buscaLarguraCusto(String nome) throws NodeNotFoundException {
-		Pilha busca = buscaLargura(nome);
-		if (busca.empty())
-			throw new NodeNotFoundException();
-		if (busca.getNext().equals(new Node(nome))) {
-			return busca.getTamanho();
-		}
-		throw new NodeNotFoundException();
-	}
-
-	public Pilha buscaLargura(String nome) {
-		Pilha resultado = new Pilha();
-		
-		if(raiz == null) return resultado;
-		
-		Fila fila = new Fila(raiz);
-		buscaLarguraRecursiva(nome, resultado, fila);
-		return resultado;
-	}
-
-	private void buscaLarguraRecursiva(String nome, Pilha resultado, Fila fila) {
-		if (fila.empty())
-			return;
-		else {
-			Node n = fila.pop();
-			resultado.add(n);
-
-			if (nome != null && n.getNome().equals(nome))
-				return;
-
-			for (Node f : n.getFilhos()) {
-				fila.add(f);
-			}
-			buscaLarguraRecursiva(nome, resultado, fila);
-		}
-	}
-
-	// BUSCA PROFUNDIDADE
-	public int buscaProfundidadeCusto(String nome) throws NodeNotFoundException {
-		Pilha busca = buscaProfundidade(nome);
-		if (busca.empty())
-			throw new NodeNotFoundException();
-		if (busca.getNext().equals(new Node(nome)))
-			return busca.getTamanho();
-		throw new NodeNotFoundException();
-	}
-
-	public Pilha buscaProfundidade(String nomeNodeBusca, String nomeNodeRestricao) {
-		Pilha resultado = new Pilha();
-		
-		if(raiz == null) return resultado;
-		
-		Node nodeBusca = null;
-		if(nomeNodeBusca != null) nodeBusca = new Node(nomeNodeBusca);
-		
-		Node nodeRestricao = null;
-		if(nomeNodeRestricao != null) nodeRestricao = new Node(nomeNodeRestricao);
-		
-		buscaProfundidadeRecursiva(raiz, nodeBusca, nodeRestricao, resultado);
-		return resultado;
+		this.vertices = new ArrayList<>();
+		this.listaAdj = new ArrayList<>();
 	}
 	
-	public Pilha buscaProfundidade(String nomeNodeBusca) {
-		return buscaProfundidade(nomeNodeBusca, null);
+	public void addVertice(String nome) throws NodeJaExisteException {
+		if(vertices.contains(nome))
+			throw new NodeJaExisteException(nome);
+		
+		vertices.add(nome);
 	}
-
-	public ArrayList<Node> buscaProfundidadeComRestricao(String nomeNode) {
-		return buscaProfundidade(null, nomeNode).toArrayList();
-	}
-
-	public ArrayList<Node> buscaProfundidade() {
-		return buscaProfundidade(null, null).toArrayList();
-	}
-
-	private void buscaProfundidadeRecursiva(Node node, Node busca, Node restricao, Pilha resultado) {
-		if (node.equals(busca)) {
-			resultado.add(node);
-		} else {
-			if(node.equals(restricao)) return;
-			
-			resultado.add(node);
-			for (Node filho : node.getFilhos()) {
-				if (!resultado.getNext().equals(busca))
-					buscaProfundidadeRecursiva(filho, busca, restricao, resultado);
-			}
+	
+	public void addAresta(String vertice1, String vertice2, int peso) {
+		int indiceVertice1 = vertices.indexOf(vertice1);
+		
+		Aresta aresta = listaAdj.get(indiceVertice1);
+		if(aresta == null)
+			listaAdj.set(indiceVertice1, new Aresta(vertice2, peso));
+		else {
+			while(aresta.getNext() != null)
+				aresta = aresta.getNext();
+			aresta.setNext(new Aresta(vertice2, peso));
 		}
 	}
-
-	public Node getRaiz() {
-		return raiz;
+	
+	public void addArestaDupla(String vertice1, String vertice2, int peso) {
+		addAresta(vertice1, vertice2, peso);
+		addAresta(vertice2, vertice1, peso);
+	}
+	
+	public ArrayList<String> getVertices() {
+		return vertices;
 	}
 
-	public void setRaiz(Node raiz) {
-		this.raiz = raiz;
+	public void setVertices(ArrayList<String> vertices) {
+		this.vertices = vertices;
+	}
+
+	public ArrayList<Aresta> getListaAdj() {
+		return listaAdj;
+	}
+
+	public void setListaAdj(ArrayList<Aresta> listaAdj) {
+		this.listaAdj = listaAdj;
 	}
 
 }
