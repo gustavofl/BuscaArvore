@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import controller.Controller;
+import controller.ControllerArvore;
 import model.arvore.Node;
 
 /**
@@ -18,14 +18,14 @@ import model.arvore.Node;
  */
 public class TelaSelecionarNodeAlteracao extends javax.swing.JDialog {
 	
-	private Controller controller;
+	private ControllerArvore controller;
 	
 	/**
      * Creates new form AddNode
      */
     public TelaSelecionarNodeAlteracao(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        controller = Controller.getInstance();
+        controller = ControllerArvore.getInstance();
         initComponents();
     }
 

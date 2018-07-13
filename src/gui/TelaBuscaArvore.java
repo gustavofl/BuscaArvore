@@ -8,7 +8,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import controller.Controller;
+import controller.ControllerArvore;
 import gui.java2d.ComponentArvore2D;
 
 /**
@@ -17,14 +17,14 @@ import gui.java2d.ComponentArvore2D;
  */
 public class TelaBuscaArvore extends javax.swing.JFrame {
 	
-	private Controller controller;
+	private ControllerArvore controller;
 	private ComponentArvore2D arvore2D;
 
     /**
      * Creates new form TelaPrincipal
      */
     public TelaBuscaArvore() {
-    	controller = Controller.getInstance();
+    	controller = ControllerArvore.getInstance();
         initComponents();
     }
 

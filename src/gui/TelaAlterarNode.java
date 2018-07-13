@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import controller.Controller;
+import controller.ControllerArvore;
 import model.arvore.Node;
 import model.exceptions.NodeJaExisteException;
 import model.exceptions.NomeInvalidoException;
@@ -20,7 +20,7 @@ import model.exceptions.NomeInvalidoException;
  */
 public class TelaAlterarNode extends javax.swing.JDialog {
 	
-	private Controller controller;
+	private ControllerArvore controller;
 	private String nomeNode;
 
     /**
@@ -28,7 +28,7 @@ public class TelaAlterarNode extends javax.swing.JDialog {
      */
     public TelaAlterarNode(java.awt.Frame parent, boolean modal, String nomeNode) {
         super(parent, modal);
-        this.controller = Controller.getInstance();
+        this.controller = ControllerArvore.getInstance();
         this.nomeNode = nomeNode;
         initComponents();
     }

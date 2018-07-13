@@ -7,7 +7,7 @@ package gui;
 
 import java.util.ArrayList;
 
-import controller.Controller;
+import controller.ControllerArvore;
 import model.arvore.Node;
 
 /**
@@ -16,14 +16,14 @@ import model.arvore.Node;
  */
 public class TelaRemoverNode extends javax.swing.JDialog {
 	
-	private Controller controller;
+	private ControllerArvore controller;
 
     /**
      * Creates new form AddNode
      */
     public TelaRemoverNode(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        controller = Controller.getInstance();
+        controller = ControllerArvore.getInstance();
         initComponents();
     }
 

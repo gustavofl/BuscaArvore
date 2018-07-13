@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import controller.Controller;
+import controller.ControllerArvore;
 import model.arvore.Node;
 import model.exceptions.NodeNotFoundException;
 
@@ -22,7 +22,7 @@ public class TelaSelecionarNodeBusca extends javax.swing.JDialog {
     public static final int PROFUNDIDADE = 0;
 	public static final int LARGURA = 1;
 	
-	private Controller controller;
+	private ControllerArvore controller;
     private int tipoBusca;
 
     /**

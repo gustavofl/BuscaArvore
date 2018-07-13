@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import controller.Controller;
+import controller.ControllerArvore;
 import model.arvore.Node;
 import model.exceptions.NodeJaExisteException;
 import model.exceptions.NodeNotFoundException;
@@ -21,14 +21,14 @@ import model.exceptions.NomeInvalidoException;
  */
 public class TelaAddNode extends javax.swing.JDialog {
 	
-	private Controller controller; 
+	private ControllerArvore controller; 
 
     /**
      * Creates new form AddNode
      */
     public TelaAddNode(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.controller = Controller.getInstance();
+        this.controller = ControllerArvore.getInstance();
         initComponents();
     }
 

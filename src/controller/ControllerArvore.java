@@ -8,18 +8,18 @@ import model.exceptions.NodeJaExisteException;
 import model.exceptions.NodeNotFoundException;
 import model.exceptions.NomeInvalidoException;
 
-public class Controller {
+public class ControllerArvore {
 	
 	private Arvore arvore;
-	private static Controller instance = null;
+	private static ControllerArvore instance = null;
 	
-	private Controller() {
+	private ControllerArvore() {
 		arvore = new Arvore();
 	}
 	
-	public static Controller getInstance() {
+	public static ControllerArvore getInstance() {
 		if(instance == null)
-			instance = new Controller();
+			instance = new ControllerArvore();
 		return instance;
 	}
 	
