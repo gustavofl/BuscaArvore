@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -9,6 +10,7 @@ import controller.ControllerHeuristica;
 import gui.java2d.ImagePanel;
 import model.exceptions.NodeNotFoundException;
 import model.exceptions.VerticeFinalNotFoundException;
+import model.grafo.Vertice;
 
 /**
  *
@@ -149,7 +151,8 @@ public class TelaBuscaHeuristica extends javax.swing.JFrame {
     	try {
 			// int custoCaminho = controller.busca(noInicialTextArea.getText());
 	        // infoLabel.setText("Custo do caminho: " + custoCaminho);
-			infoLabel.setText(controller.calcularCaminho(noInicialTextArea.getText()).toString());
+    		ArrayList<Vertice> caminho = controller.calcularCaminho(noInicialTextArea.getText());
+			infoLabel.setText("Caminho: " + caminho.toString() + " --- Custo: " + controller.calcularCustoCaminho(caminho));
 		} catch (NodeNotFoundException | VerticeFinalNotFoundException e) {
 			// e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Nó não encontrado", JOptionPane.ERROR_MESSAGE);

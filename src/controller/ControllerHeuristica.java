@@ -117,4 +117,8 @@ public class ControllerHeuristica {
 		return heuristica;
 	}
 
+	public int calcularCustoCaminho(ArrayList<Vertice> caminho) {
+		return buscaHeuristica.getGrafo().calcularCustoCaminho(caminho);
+	}
+
 }

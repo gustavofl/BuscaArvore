@@ -45,6 +45,25 @@ public class Grafo {
 		}
 	}
 	
+	public int calcularCustoCaminho(ArrayList<Vertice> caminho) {
+		int custo = 0;
+		if(vertices != null && caminho.size() > 1) {
+			for (int i = 1; i < caminho.size(); i++) {
+				int indexVertice = vertices.indexOf(caminho.get(i-1));
+				Aresta a = listaAdj.get(indexVertice);
+				while(a != null) {
+					if(a.getVertice().equals(caminho.get(i))){
+						custo += a.getPeso();
+						break;
+					}
+					a = a.getNext();
+				}
+			}
+		}
+		return custo;
+		
+	}
+	
 	public void addArestaDupla(String vertice1, String vertice2, int peso) throws NodeNotFoundException {
 		addAresta(vertice1, vertice2, peso);
 		addAresta(vertice2, vertice1, peso);
