@@ -51,14 +51,13 @@ public class BuscaAEstrela {
 		if (resultado.getNext() == null || resultado.getNext().equals(verticeFinal))
 			return;
 		else {
-			System.out.println(resultado);
 			Vertice verticeAtual = resultado.getNext();
 			jaVisitados.add(verticeAtual);
 			int menorHeuristica = 0;
 			Vertice nextVerticeHeuristica = null;
 			Aresta vizinho = grafo.getVizinhos(verticeAtual);
 			
-			if(vizinho == null) return; //?
+			if(vizinho == null) return;
 			
 			while(vizinho != null) {
 				if(! jaVisitados.contains(vizinho.getVertice()))

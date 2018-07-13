@@ -45,6 +45,7 @@ public class Main {
 			grafo.addArestaDupla("Pitesti", "Bucharest", 101);
 			grafo.addArestaDupla("Pitesti", "Rimnicu Vilcea", 97);
 			grafo.addArestaDupla("Sibiu", "Rimnicu Vilcea", 80);
+			grafo.addArestaDupla("Sibiu", "Arad", 140);
 			grafo.addArestaDupla("Craiova", "Rimnicu Vilcea", 146);
 			grafo.addArestaDupla("Craiova", "Pitesti", 138);
 			grafo.addArestaDupla("Craiova", "Dobreta", 120);
@@ -81,9 +82,9 @@ public class Main {
 		
 		BuscaAEstrela busca = new BuscaAEstrela(grafo, heuristica, grafo.getVertice("Bucharest"));
 		try {
-			System.out.println(busca.calcularCaminho("Arad"));
+			System.out.println("Caminho: " + busca.calcularCaminho("Arad"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 	}
