@@ -1,4 +1,4 @@
-package model.arvore;
+package model.grafo;
 
 public class Fila extends ListaSequencial {
 
@@ -6,22 +6,22 @@ public class Fila extends ListaSequencial {
 		super();
 	}
 	
-	public Fila(Node n) {
+	public Fila(Vertice n) {
 		super(n);
 	}
 	
-	public void add(Node n) {
+	public void add(Vertice n) {
 		this.lista.add(n);
 	}
 	
-	public Node getNext() {
+	public Vertice getNext() {
 		if(getTamanho() == 0)
 			return null;
 		return this.lista.get(0);
 	}
 	
-	public Node pop() {
-		Node last = this.getNext();
+	public Vertice pop() {
+		Vertice last = this.getNext();
 		this.lista.remove(0);
 		return last;
 	}

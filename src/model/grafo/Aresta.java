@@ -3,16 +3,16 @@ package model.grafo;
 public class Aresta {
 
 	private Aresta next;
-	private String vertice;
+	private Vertice vertice;
 	private int peso;
 
-	public Aresta(Aresta next, String vertice, int peso) {
+	public Aresta(Aresta next, Vertice vertice, int peso) {
 		this.next = next;
 		this.vertice = vertice;
 		this.peso = peso;
 	}
 
-	public Aresta(String vertice, int peso) {
+	public Aresta(Vertice vertice, int peso) {
 		this(null, vertice, peso);
 	}
 
@@ -24,11 +24,11 @@ public class Aresta {
 		this.next = next;
 	}
 
-	public String getVertice() {
+	public Vertice getVertice() {
 		return vertice;
 	}
 
-	public void setVertice(String vertice) {
+	public void setVertice(Vertice vertice) {
 		this.vertice = vertice;
 	}
 

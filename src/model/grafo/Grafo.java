@@ -6,10 +6,10 @@ import model.exceptions.NodeJaExisteException;
 
 public class Grafo {
 
-	private ArrayList<String> vertices;
+	private ArrayList<Vertice> vertices;
 	private ArrayList<Aresta> listaAdj;
 
-	public Grafo(ArrayList<String> vertices, ArrayList<Aresta> listaAdj) {
+	public Grafo(ArrayList<Vertice> vertices, ArrayList<Aresta> listaAdj) {
 		this.vertices = vertices;
 		this.listaAdj = listaAdj;
 	}
@@ -23,19 +23,20 @@ public class Grafo {
 		if(vertices.contains(nome))
 			throw new NodeJaExisteException(nome);
 		
-		vertices.add(nome);
+		vertices.add(new Vertice(nome));
 	}
 	
 	public void addAresta(String vertice1, String vertice2, int peso) {
 		int indiceVertice1 = vertices.indexOf(vertice1);
+		Vertice v2 = vertices.get(vertices.indexOf(new Vertice(vertice2)));
 		
 		Aresta aresta = listaAdj.get(indiceVertice1);
 		if(aresta == null)
-			listaAdj.set(indiceVertice1, new Aresta(vertice2, peso));
+			listaAdj.set(indiceVertice1, new Aresta(v2, peso));
 		else {
 			while(aresta.getNext() != null)
 				aresta = aresta.getNext();
-			aresta.setNext(new Aresta(vertice2, peso));
+			aresta.setNext(new Aresta(v2, peso));
 		}
 	}
 	
@@ -44,11 +45,15 @@ public class Grafo {
 		addAresta(vertice2, vertice1, peso);
 	}
 	
-	public ArrayList<String> getVertices() {
+	public Aresta getVizinhos(Vertice v) {
+		return listaAdj.get(vertices.indexOf(v));
+	}
+
+	public ArrayList<Vertice> getVertices() {
 		return vertices;
 	}
 
-	public void setVertices(ArrayList<String> vertices) {
+	public void setVertices(ArrayList<Vertice> vertices) {
 		this.vertices = vertices;
 	}
 

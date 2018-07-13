@@ -1,4 +1,4 @@
-package model.arvore;
+package model.grafo;
 
 public class Pilha extends ListaSequencial {
 	
@@ -8,23 +8,23 @@ public class Pilha extends ListaSequencial {
 		super();
 	}
 	
-	public Pilha(Node n) {
+	public Pilha(Vertice n) {
 		super(n);
 	}
 	
-	public void add(Node n) {
+	public void add(Vertice n) {
 		this.lista.add(n);
 		tamanho++;
 	}
 	
-	public Node getNext() {
+	public Vertice getNext() {
 		if(tamanho == 0)
 			return null;
 		return this.lista.get(tamanho-1);
 	}
 	
-	public Node pop() {
-		Node last = this.getNext();
+	public Vertice pop() {
+		Vertice last = this.getNext();
 		this.lista.remove(--tamanho);
 		return last;
 	}

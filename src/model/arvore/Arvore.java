@@ -17,7 +17,7 @@ public class Arvore {
 	}
 
 	public Node getNode(String nome) {
-		Pilha busca = buscaProfundidade(nome);
+		PilhaNode busca = buscaProfundidade(nome);
 		if (busca.empty())
 			return null;
 		if (busca.getNext().getNome().equals(nome))
@@ -27,7 +27,7 @@ public class Arvore {
 
 	// BUSCA LARGURA
 	public int buscaLarguraCusto(String nome) throws NodeNotFoundException {
-		Pilha busca = buscaLargura(nome);
+		PilhaNode busca = buscaLargura(nome);
 		if (busca.empty())
 			throw new NodeNotFoundException();
 		if (busca.getNext().equals(new Node(nome))) {
@@ -36,17 +36,17 @@ public class Arvore {
 		throw new NodeNotFoundException();
 	}
 
-	public Pilha buscaLargura(String nome) {
-		Pilha resultado = new Pilha();
+	public PilhaNode buscaLargura(String nome) {
+		PilhaNode resultado = new PilhaNode();
 		
 		if(raiz == null) return resultado;
 		
-		Fila fila = new Fila(raiz);
+		FilaNode fila = new FilaNode(raiz);
 		buscaLarguraRecursiva(nome, resultado, fila);
 		return resultado;
 	}
 
-	private void buscaLarguraRecursiva(String nome, Pilha resultado, Fila fila) {
+	private void buscaLarguraRecursiva(String nome, PilhaNode resultado, FilaNode fila) {
 		if (fila.empty())
 			return;
 		else {
@@ -65,7 +65,7 @@ public class Arvore {
 
 	// BUSCA PROFUNDIDADE
 	public int buscaProfundidadeCusto(String nome) throws NodeNotFoundException {
-		Pilha busca = buscaProfundidade(nome);
+		PilhaNode busca = buscaProfundidade(nome);
 		if (busca.empty())
 			throw new NodeNotFoundException();
 		if (busca.getNext().equals(new Node(nome)))
@@ -73,8 +73,8 @@ public class Arvore {
 		throw new NodeNotFoundException();
 	}
 
-	public Pilha buscaProfundidade(String nomeNodeBusca, String nomeNodeRestricao) {
-		Pilha resultado = new Pilha();
+	public PilhaNode buscaProfundidade(String nomeNodeBusca, String nomeNodeRestricao) {
+		PilhaNode resultado = new PilhaNode();
 		
 		if(raiz == null) return resultado;
 		
@@ -88,7 +88,7 @@ public class Arvore {
 		return resultado;
 	}
 	
-	public Pilha buscaProfundidade(String nomeNodeBusca) {
+	public PilhaNode buscaProfundidade(String nomeNodeBusca) {
 		return buscaProfundidade(nomeNodeBusca, null);
 	}
 
@@ -100,7 +100,7 @@ public class Arvore {
 		return buscaProfundidade(null, null).toArrayList();
 	}
 
-	private void buscaProfundidadeRecursiva(Node node, Node busca, Node restricao, Pilha resultado) {
+	private void buscaProfundidadeRecursiva(Node node, Node busca, Node restricao, PilhaNode resultado) {
 		if (node.equals(busca)) {
 			resultado.add(node);
 		} else {
