@@ -23,5 +23,10 @@ public class Vertice {
 		Vertice v = (Vertice) obj;
 		return v.getNome().equals(nome);
 	}
+	
+	@Override
+	public String toString() {
+		return nome;
+	}
 
 }

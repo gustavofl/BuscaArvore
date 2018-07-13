@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.exceptions.NodeNotFoundException;
+import model.exceptions.VerticeFinalNotFoundException;
 
 public class BuscaAEstrela {
 
@@ -22,14 +23,14 @@ public class BuscaAEstrela {
 	}
 	
 	public void addHeuristica(String vertice, int valor) throws NodeNotFoundException {
-		if(! grafo.getVertices().contains(vertice))
+		if(! grafo.getVertices().contains(new Vertice(vertice)))
 			throw new NodeNotFoundException(vertice);
 		
 		heuristica.put(vertice, valor);
 	}
 	
 	public ArrayList<Vertice> calcularCaminho(String verticeInicio) throws NodeNotFoundException, VerticeFinalNotFoundException {
-		if(! grafo.getVertices().contains(verticeInicio))
+		if(! grafo.getVertices().contains(new Vertice(verticeInicio)))
 			throw new NodeNotFoundException(verticeInicio);
 		
 		if(verticeFinal == null)
@@ -38,7 +39,7 @@ public class BuscaAEstrela {
 		// Fila vizinhos = new Fila();
 		Pilha resultado = new Pilha();
 		ArrayList<Vertice> jaVisitados = new ArrayList<>();
-		// vizinhos.add(new Vertice(verticeInicio));
+		resultado.add(new Vertice(verticeInicio));
 		
 		buscaLarguraRecursiva(resultado, jaVisitados);
 		
@@ -47,9 +48,10 @@ public class BuscaAEstrela {
 
 	// copiado de mode.arvore.Arvore
 	private void buscaLarguraRecursiva(Pilha resultado, ArrayList<Vertice> jaVisitados) {
-		if (resultado.getNext().equals(verticeFinal))
+		if (resultado.getNext() == null || resultado.getNext().equals(verticeFinal))
 			return;
 		else {
+			System.out.println(resultado);
 			Vertice verticeAtual = resultado.getNext();
 			jaVisitados.add(verticeAtual);
 			int menorHeuristica = 0;
@@ -59,12 +61,13 @@ public class BuscaAEstrela {
 			if(vizinho == null) return; //?
 			
 			while(vizinho != null) {
-				if(jaVisitados.contains(vizinho)) continue;
+				if(! jaVisitados.contains(vizinho.getVertice()))
+					if(nextVerticeHeuristica == null || heuristica.get(vizinho.getVertice().getNome())+vizinho.getPeso() < menorHeuristica){
+						menorHeuristica = heuristica.get(vizinho.getVertice().getNome())+vizinho.getPeso();
+						nextVerticeHeuristica = vizinho.getVertice();
+					}
 				
-				if(nextVerticeHeuristica == null || heuristica.get(vizinho)+vizinho.getPeso() < menorHeuristica){
-					menorHeuristica = heuristica.get(vizinho)+vizinho.getPeso();
-					nextVerticeHeuristica = vizinho.getVertice();
-				}
+				vizinho = vizinho.getNext();
 			}
 			
 			resultado.add(nextVerticeHeuristica);

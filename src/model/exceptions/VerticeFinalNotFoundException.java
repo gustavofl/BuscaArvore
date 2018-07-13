@@ -1,4 +1,4 @@
-package model.grafo;
+package model.exceptions;
 
 public class VerticeFinalNotFoundException extends Exception {
 

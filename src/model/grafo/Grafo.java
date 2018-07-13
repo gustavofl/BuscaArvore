@@ -3,6 +3,7 @@ package model.grafo;
 import java.util.ArrayList;
 
 import model.exceptions.NodeJaExisteException;
+import model.exceptions.NodeNotFoundException;
 
 public class Grafo {
 
@@ -20,14 +21,18 @@ public class Grafo {
 	}
 	
 	public void addVertice(String nome) throws NodeJaExisteException {
-		if(vertices.contains(nome))
+		if(vertices.contains(new Vertice(nome)))
 			throw new NodeJaExisteException(nome);
 		
 		vertices.add(new Vertice(nome));
+		listaAdj.add(null);
 	}
 	
-	public void addAresta(String vertice1, String vertice2, int peso) {
-		int indiceVertice1 = vertices.indexOf(vertice1);
+	public void addAresta(String vertice1, String vertice2, int peso) throws NodeNotFoundException {
+		int indiceVertice1 = vertices.indexOf(new Vertice(vertice1));
+		
+		if(indiceVertice1 == -1) throw new NodeNotFoundException(vertice1);
+		
 		Vertice v2 = vertices.get(vertices.indexOf(new Vertice(vertice2)));
 		
 		Aresta aresta = listaAdj.get(indiceVertice1);
@@ -40,7 +45,7 @@ public class Grafo {
 		}
 	}
 	
-	public void addArestaDupla(String vertice1, String vertice2, int peso) {
+	public void addArestaDupla(String vertice1, String vertice2, int peso) throws NodeNotFoundException {
 		addAresta(vertice1, vertice2, peso);
 		addAresta(vertice2, vertice1, peso);
 	}
@@ -63,6 +68,10 @@ public class Grafo {
 
 	public void setListaAdj(ArrayList<Aresta> listaAdj) {
 		this.listaAdj = listaAdj;
+	}
+
+	public Vertice getVertice(String nomeVertice) {
+		return vertices.get(vertices.indexOf(new Vertice(nomeVertice)));
 	}
 
 }

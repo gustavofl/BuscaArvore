@@ -1,11 +1,12 @@
 package model.grafo;
 
-import model.exceptions.NodeJaExisteException;
+import java.util.HashMap;
 
 public class Main {
 
 	public static void main(String[] args) {
 		Grafo grafo = new Grafo();
+		HashMap<String, Integer> heuristica = new HashMap<>();
 		
 		try {
 			grafo.addVertice("Arad");
@@ -21,7 +22,7 @@ public class Main {
 			grafo.addVertice("Mehadia");
 			grafo.addVertice("Neamt");
 			grafo.addVertice("Oradea");
-			grafo.addVertice("Pitest");
+			grafo.addVertice("Pitesti");
 			grafo.addVertice("Rimnicu Vilcea");
 			grafo.addVertice("Sibiu");
 			grafo.addVertice("Timisoara");
@@ -51,8 +52,38 @@ public class Main {
 			grafo.addArestaDupla("Mehadia", "Lugoj", 70);
 			grafo.addArestaDupla("Timisoara", "Lugoj", 111);
 			grafo.addArestaDupla("Timisoara", "Arad", 118);
-		} catch (NodeJaExisteException e) {
+
+			heuristica.put("Arad",366);
+			heuristica.put("Bucharest",0);
+			heuristica.put("Craiova",160);
+			heuristica.put("Dobreta",242);
+			heuristica.put("Eforie",161);
+			heuristica.put("Fagaras",178);
+			heuristica.put("Giurgiu",77);
+			heuristica.put("Hirsova",151);
+			heuristica.put("Iasi",226);
+			heuristica.put("Lugoj",244);
+			heuristica.put("Mehadia",241);
+			heuristica.put("Neamt",234);
+			heuristica.put("Oradea",380);
+			heuristica.put("Pitesti",98);
+			heuristica.put("Rimnicu Vilcea",193);
+			heuristica.put("Sibiu",253);
+			heuristica.put("Timisoara",329);
+			heuristica.put("Urziceni",80);
+			heuristica.put("Vaslui",199);
+			heuristica.put("Zerind",374);
+		} catch (Exception e) {
 			// e.printStackTrace();
+			System.out.println(e.getMessage());
+			return;
+		}
+		
+		BuscaAEstrela busca = new BuscaAEstrela(grafo, heuristica, grafo.getVertice("Bucharest"));
+		try {
+			System.out.println(busca.calcularCaminho("Arad"));
+		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 	}
