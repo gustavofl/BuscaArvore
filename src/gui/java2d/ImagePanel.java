@@ -2,8 +2,8 @@ package gui.java2d;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -16,7 +16,8 @@ public class ImagePanel extends JPanel {
 	
 	public ImagePanel() {
 		try {
-			imagem = ImageIO.read(new File("imagens/Mapa Heuristica.jpg"));
+			URL url = ImagePanel.class.getResource("/imagens/Mapa Heuristica.jpg");
+			imagem = ImageIO.read(url);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
