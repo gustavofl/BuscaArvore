@@ -153,6 +153,8 @@ public class TelaBuscaHeuristica extends javax.swing.JFrame {
 	        // infoLabel.setText("Custo do caminho: " + custoCaminho);
     		ArrayList<Vertice> caminho = controller.calcularCaminho(noInicialTextArea.getText());
 			infoLabel.setText("Caminho: " + caminho.toString() + " --- Custo: " + controller.calcularCustoCaminho(caminho));
+			JOptionPane.showMessageDialog(this, "Caminho: " + caminho.toString() + "\nCusto: " + controller.calcularCustoCaminho(caminho), 
+											"Resultado da busca", JOptionPane.INFORMATION_MESSAGE);
 		} catch (NodeNotFoundException | VerticeFinalNotFoundException e) {
 			// e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Nó não encontrado", JOptionPane.ERROR_MESSAGE);
